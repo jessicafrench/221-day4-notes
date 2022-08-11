@@ -4,23 +4,92 @@ format: html
 editor: visual
 ---
 
-## Quarto
-
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
 ```{r}
-1 + 1
+library(tidyverse)
 ```
 
-You can add options to executable code like this
+## Notes
+
+generally function names should be verbs and arguments should be nouns.
+Its better to be descriptive rather than short
+
+## For loop warm uo
 
 ```{r}
-#| echo: false
-2 * 2
+quarter_splits <- c(1.0, 1.1, 1.2, 1.1, 1.4, 1.5, 1.6, 1.4)
+
+for (time in seq_along(quarter_splits)) {
+  print(quarter_splits[time] + quarter_splits[time + 1])
+}
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+## Functions 
+
+make a function to double the user input
+
+ 
+```{r}
+double_input <- function(my_value) {
+  print(my_value * 2)
+}
+
+double_input(my_value = 3)
+
+double_input(4)
+```
+
+write a function that asks for a users name and age and returns an exclamamtion
+```{r}
+exclaim_age <- function(your_name, your_age) {
+  print(paste("My name is", your_name, "I am", your_age, "years old!"))
+}
+
+exclaim_age(your_name = "Thistle", your_age = 4)
+```
+
+A function with conditional 
+
+```{r}
+convert_animal_age <- function(animal, human_age) {
+  if (animal == "dog") {
+    print(human_age * 7) 
+  } else if (animal == "goat") {
+    print(human_age *4.7)
+  } else {
+  print("animal must be a dog or a goat, human_age must be numeric")
+  }
+    }
+
+```
+
+Make a data frame
+
+```{r}
+dog_choice <- tribble(
+  ~dog_name, ~food,
+  "Khora", "everything",
+  "Teddy", "salmon",
+  "Waffle", "pancakes", 
+  "Banjo", "chicken"
+)
+
+dog_menu <- function(name) {
+  my_subset <- filter(dog_choice, dog_name == name)
+  print(paste("my name is", my_subset$dog_name, "i love", my_subset$food))
+}
+```
+
+Functions meet for loops
+
+```{r}
+means_over_columns <- function(df) {
+  for (i in seq_along(df)) {
+    col_mean <- mean(df[[i]], na.rm = TRUE) 
+    col_names <- colnames(df[i])
+    print(paste("The mean value of", col_names, "is", col_mean))
+  }
+}
+
+means_over_columns(df = mtcars)
+```
+
